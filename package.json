@@ -1,0 +1,47 @@
+{
+  "name": "guardfix",
+  "version": "0.1.0",
+  "description": "Free security check for vibe-coded apps: vulnerable dependencies, leaked keys, Supabase tables without RLS. One command, a grade, a prompt your AI can fix from.",
+  "type": "module",
+  "bin": {
+    "guardfix": "bin/guardfix.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "keywords": [
+    "security",
+    "vibe-coding",
+    "lovable",
+    "cursor",
+    "claude-code",
+    "supabase",
+    "rls",
+    "vulnerabilities",
+    "osv"
+  ],
+  "homepage": "https://guardfix.io",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guardfix/guardfix.git"
+  },
+  "bugs": {
+    "url": "https://github.com/guardfix/guardfix/issues",
+    "email": "tech@guardfix.io"
+  },
+  "author": {
+    "name": "GuardFix",
+    "email": "tech@guardfix.io",
+    "url": "https://guardfix.io"
+  }
+}

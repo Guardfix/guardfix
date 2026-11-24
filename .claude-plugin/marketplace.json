@@ -1,0 +1,8 @@
+{
+  "name": "guardfix",
+  "owner": { "name": "GuardFix", "email": "tech@guardfix.io" },
+  "metadata": { "description": "GuardFix security check for vibe-coded apps" },
+  "plugins": [
+    { "name": "guardfix", "source": "./", "description": "/guardfix: free security check, then fix and re-check", "version": "0.1.0", "license": "Apache-2.0" }
+  ]
+}

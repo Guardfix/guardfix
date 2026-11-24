@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="314" viewBox="0 0 600 314" data-grade="F" font-family="-apple-system,Segoe UI,Helvetica,Arial,sans-serif">
+<rect width="600" height="314" rx="24" fill="#c9ddd1"/>
+<text x="36" y="56" font-size="15" font-weight="700" fill="#1a624b" letter-spacing="1.4">GUARDFIX SECURITY GRADE</text>
+<text x="36" y="80" font-size="20" fill="#173b31">my-vibe-app</text>
+<rect x="36" y="110" width="150" height="150" rx="22" fill="#fffefa"/>
+<text x="111" y="218" font-size="96" text-anchor="middle" font-family="Georgia,serif" fill="#b42318">F</text>
+<text x="216" y="140" font-size="17" fill="#173b31"><tspan font-weight="700">6</tspan> critical · <tspan font-weight="700">31</tspan> high · <tspan font-weight="700">36</tspan> medium</text>
+<text x="216" y="176" font-size="15" fill="#33493f">Known vulnerable dependencies with a fix: 35</text>
+<text x="216" y="202" font-size="15" fill="#33493f">Typical AI-built app: 15 (Vibe Security Index)</text>
+<text x="216" y="238" font-size="14" fill="#596b5e">Leaked keys: 1 · Supabase tables without RLS: 1</text>
+<text x="36" y="292" font-size="14" fill="#1a624b">npx guardfix · guardfix.io</text>
+</svg>

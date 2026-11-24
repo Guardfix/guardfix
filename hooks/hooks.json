@@ -1,0 +1,17 @@
+{
+  "description": "GuardFix: says what is new in your dependencies when a session starts, and stops the AI from writing a key, a vulnerable version or a table without RLS",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume",
+        "hooks": [{ "type": "command", "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/session-start.js\"", "timeout": 45 }]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [{ "type": "command", "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/pre-write.js\"", "timeout": 20 }]
+      }
+    ]
+  }
+}

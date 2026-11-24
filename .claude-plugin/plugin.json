@@ -1,0 +1,23 @@
+{
+  "name": "guardfix",
+  "version": "0.1.0",
+  "description": "Free security check for vibe-coded apps from inside Claude Code: vulnerable dependencies, leaked keys, Supabase tables without RLS, then fix and re-check.",
+  "author": {
+    "name": "GuardFix",
+    "email": "tech@guardfix.io",
+    "url": "https://guardfix.io"
+  },
+  "homepage": "https://guardfix.io",
+  "license": "Apache-2.0",
+  "keywords": [
+    "security",
+    "vibe-coding",
+    "supabase",
+    "dependencies",
+    "secrets"
+  ],
+  "commands": [
+    "./commands/"
+  ],
+  "repository": "https://github.com/guardfix/guardfix"
+}
