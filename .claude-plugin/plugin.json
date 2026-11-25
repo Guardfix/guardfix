@@ -1,6 +1,6 @@
 {
   "name": "guardfix",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Free security check for vibe-coded apps from inside Claude Code: vulnerable dependencies, leaked keys, Supabase tables without RLS, then fix and re-check.",
   "author": {
     "name": "GuardFix",
@@ -19,5 +19,14 @@
   "commands": [
     "./commands/"
   ],
-  "repository": "https://github.com/guardfix/guardfix"
+  "repository": "https://github.com/guardfix/guardfix",
+  "mcpServers": {
+    "guardfix": {
+      "command": "node",
+      "args": [
+        "${CLAUDE_PLUGIN_ROOT}/bin/guardfix.js",
+        "mcp"
+      ]
+    }
+  }
 }

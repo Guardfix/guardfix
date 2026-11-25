@@ -20,7 +20,7 @@ function project() {
   } }));
   mkdirSync(join(root, "src"));
   writeFileSync(join(root, "src", "supabase.ts"), `export const key = "${jwt("service_role")}";\nexport const anon = "${jwt("anon")}";\n`);
-  writeFileSync(join(root, ".env.example"), "OPENAI_API_KEY=sk-proj-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n");
+  writeFileSync(join(root, ".env.example"), "OPENAI_API_KEY=sk-proj-" + "a".repeat(36) + "\n");
   mkdirSync(join(root, "supabase", "migrations"), { recursive: true });
   writeFileSync(join(root, "supabase", "migrations", "001.sql"),
     "create table public.profiles (id uuid);\ncreate table notes (id int);\nalter table public.notes enable row level security;\n");

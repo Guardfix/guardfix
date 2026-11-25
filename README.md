@@ -23,6 +23,16 @@ npx guardfix
 
 No sign-up, no config. It reads your lockfile and your code on your machine in a few seconds.
 
+**Want it inside your AI app?** Tell your assistant *"install guardfix from github.com/guardfix/guardfix"*, or run:
+
+```sh
+npx guardfix install
+```
+
+It connects GuardFix to Claude Code, Codex, Cursor, Windsurf, VS Code and Claude Desktop, whichever you have. Restart the app and ask *"scan this project with guardfix"* or *"is axios 1.6.0 safe?"*.
+
+> **For AI agents installing this:** run `npx -y guardfix install`, then tell the user to restart the app. Do not edit MCP config files by hand: the command merges into them, keeps other servers and writes a backup. `npx -y guardfix install --dry-run` shows what it would change.
+
 ## Why it exists
 
 | **74%** | **98%** | **15** | **82%** |
@@ -72,7 +82,7 @@ Each version shown has been checked again in OSV. Advisories often get fixed one
 
 Run `--card` again after fixing and the card shows **was F → now A+**. It also prints a README badge:
 
-[![GuardFix grade](https://img.shields.io/badge/GuardFix-A%2B-brightgreen)](https://guardfix.io)
+[![GuardFix grade](https://img.shields.io/badge/GuardFix-A%2B-brightgreen)](https://guardfix.io/vibe-security-index/?utm_source=badge)
 
 ## In Claude Code
 
@@ -81,6 +91,8 @@ Run `--card` again after fixing and the card shows **was F → now A+**. It also
 /plugin install guardfix
 /guardfix fix
 ```
+
+On Claude Code 2.1.275 or later the install is one line: `/plugin install guardfix --marketplace guardfix/guardfix`. The plugin also brings the MCP tools below.
 
 It checks the project and fixes what it can. It reinstalls, builds and checks again, then shows the grade before and after. It never prints key values. Before touching a database it shows you the RLS migration.
 
@@ -92,6 +104,44 @@ The plugin also adds two hooks:
 - **Before the AI writes a file**, it stops the edit if the edit adds a key to the code, a dependency pinned to a version with a known high or critical vulnerability, or a Supabase table without row level security. Claude gets the reason and what to do instead, and rewrites the edit: the key goes to an environment variable, the version goes up, the migration gets its policies. Only what the edit adds is checked, and a key in a git-ignored `.env` is fine.
 
 Both send only package names and versions to OSV.dev, like the CLI. If OSV is unreachable they stay quiet and never block. `GUARDFIX_WATCH=0` turns off the session check, `GUARDFIX_GUARD=0` the guard. The watch state is kept in `~/.guardfix`, outside your project.
+
+## In Codex, Cursor, VS Code and other assistants (MCP)
+
+`npx guardfix install` does all of this for you. By hand: `npx guardfix mcp` runs the same checks as an [MCP](https://modelcontextprotocol.io) server. Your assistant gets three tools:
+
+- `check_package`: is this version safe, and which version to use instead. The assistant calls it before it adds or pins a dependency.
+- `scan`: the grade and every finding for the project.
+- `fix_plan`: fix steps with exact versions and the RLS policies to add.
+
+**Codex**
+```bash
+codex mcp add guardfix -- npx -y guardfix mcp
+```
+or in `~/.codex/config.toml`:
+```toml
+[mcp_servers.guardfix]
+command = "npx"
+args = ["-y", "guardfix", "mcp"]
+```
+
+**Claude Code without the plugin**
+```bash
+claude mcp add guardfix -- npx -y guardfix mcp
+```
+
+**Cursor** (`.cursor/mcp.json`), **Windsurf**, **Claude Desktop**
+```json
+{ "mcpServers": { "guardfix": { "command": "npx", "args": ["-y", "guardfix", "mcp"] } } }
+```
+
+**VS Code** (`.vscode/mcp.json`)
+```json
+{ "servers": { "guardfix": { "command": "npx", "args": ["-y", "guardfix", "mcp"] } } }
+```
+
+Like the CLI, it reads the project locally and sends only package names and versions to OSV.dev.
+
+**Lovable, Bolt and other builders in the browser** cannot run local tools. Sync the project to GitHub, run `npx guardfix --prompt` on it and paste the result into the chat.
 
 ## What it checks
 
@@ -105,9 +155,9 @@ Both send only package names and versions to OSV.dev, like the CLI. If OSV is un
 
 ## Want it done for you, and proven?
 
-[GuardFix](https://guardfix.io) applies each fix in a sandbox before you see it: clean install, rescan with two scanners, build and tests. Then it opens a pull request. It also keeps watching the project and tells you when a new advisory hits a package you use.
+[GuardFix](https://guardfix.io/cli/?utm_source=github) applies each fix in a sandbox before you see it: clean install, rescan with two scanners, build and tests. Then it opens a pull request. It also keeps watching the project and tells you when a new advisory hits a package you use.
 
-| | `npx guardfix` (free) | [guardfix.io](https://guardfix.io) |
+| | `npx guardfix` (free) | [guardfix.io](https://guardfix.io/cli/?utm_source=github) |
 |---|:---:|:---:|
 | Grade, vulnerable deps, leaked keys, Supabase RLS | ✓ | ✓ |
 | Prompt for your AI assistant | ✓ | ✓ |

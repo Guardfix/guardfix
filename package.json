@@ -1,6 +1,6 @@
 {
   "name": "guardfix",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Free security check for vibe-coded apps: vulnerable dependencies, leaked keys, Supabase tables without RLS. One command, a grade, a prompt your AI can fix from.",
   "type": "module",
   "bin": {

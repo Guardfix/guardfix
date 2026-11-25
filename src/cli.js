@@ -3,7 +3,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { resolve, join, basename } from "node:path";
 import { walk, packages, advisories, safeUpgrades, secrets, supabaseRls, hasProject, compareVersions } from "./scan.js";
 
-export const VERSION = "0.1.0";
+export const VERSION = "0.2.0";
 const ORDER = { critical: 0, high: 1, medium: 2, low: 3, unknown: 4 };
 // Vibe Security Index, November 2026: AI-built public projects (production dependencies, high/critical with a fix)
 export const INDEX = { share: 74, median: 15, projects: 1256 };
@@ -93,7 +93,7 @@ export function text(r) {
   lines.push("", `  ${C.b}Next:${C.x}`,
     `  · npx guardfix --prompt   a ready prompt to paste into Claude Code / Cursor / Codex`,
     `  · npx guardfix --card     a shareable grade card (guardfix-card.svg) and a README badge`,
-    `  · ${C.b}guardfix.io${C.x}            fixes done for you and verified: clean install, rescan, build, tests`, "");
+    `  · ${C.b}https://guardfix.io/cli/?utm_source=cli${C.x}  the fix done for you and verified (install, rescan, build, tests), as a pull request`, "");
   return lines.join("\n");
 }
 
@@ -150,13 +150,20 @@ ${was}<rect x="36" y="110" width="150" height="150" rx="22" fill="#fffefa"/>
 
 export function badge(r) {
   const color = r.grade.startsWith("A") ? "brightgreen" : r.grade === "B" ? "yellowgreen" : r.grade === "C" ? "yellow" : "red";
-  return `[![GuardFix grade](https://img.shields.io/badge/GuardFix-${encodeURIComponent(r.grade)}-${color})](https://guardfix.io)`;
+  return `[![GuardFix grade](https://img.shields.io/badge/GuardFix-${encodeURIComponent(r.grade)}-${color})](https://guardfix.io/vibe-security-index/?utm_source=badge)`;
 }
 
 export async function main(argv, { fetch, log = console.log } = {}) {
+  if (argv[0] === "mcp") { await (await import("./mcp.js")).serve({ fetch }); return 0; }
+  if (argv[0] === "install") {
+    const { install, report } = await import("./install.js");
+    const dryRun = argv.includes("--dry-run");
+    log(report(install({ dryRun }), dryRun));
+    return 0;
+  }
   const flags = new Set(argv.filter((a) => a.startsWith("--")));
   if (flags.has("--help") || flags.has("-h")) {
-    log("Usage: npx guardfix [path] [--json] [--prompt] [--card] [--offline]\n\nFree security check of a project: vulnerable dependencies (OSV.dev),\nleaked keys, Supabase tables without row level security. Nothing leaves your\nmachine except package names and versions sent to OSV.dev (skip with --offline).");
+    log("Usage: npx guardfix [path] [--json] [--prompt] [--card] [--offline]\n       npx guardfix install [--dry-run]   connect GuardFix to Claude Code, Codex, Cursor, VS Code, Claude Desktop\n       npx guardfix mcp   (the MCP server those apps start)\n\nFree security check of a project: vulnerable dependencies (OSV.dev),\nleaked keys, Supabase tables without row level security. Nothing leaves your\nmachine except package names and versions sent to OSV.dev (skip with --offline).");
     return 0;
   }
   if (flags.has("--version")) { log(VERSION); return 0; }
